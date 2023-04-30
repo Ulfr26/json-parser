@@ -66,7 +66,7 @@ impl JsonValue {
 
             JsonValue::Bool(b) => format!("{b}"),
 
-            JsonValue::Null => format!("null"),
+            JsonValue::Null => "null".to_string(),
         }
     }
 }
