@@ -1,9 +1,10 @@
-use nom::sequence::terminated;
+use crate::JsonValue;
 use nom::branch::alt;
 use nom::character::complete::multispace0;
-use nom::combinator::{map_res, opt, eof};
+use nom::combinator::{eof, map_res, opt};
 use nom::error::ParseError;
 use nom::multi::{fold_many0, many_m_n, separated_list1};
+use nom::sequence::terminated;
 use nom::sequence::{delimited, pair, preceded};
 use nom::AsChar;
 use nom::{
@@ -13,7 +14,6 @@ use nom::{
 use nom::{InputIter, Parser, Slice};
 use std::collections::HashMap;
 use std::ops::RangeFrom;
-use crate::JsonValue;
 
 #[derive(Debug)]
 pub struct ParseUnicodeCharError {
@@ -167,7 +167,7 @@ fn member(input: &str) -> IResult<&str, (String, JsonValue)> {
     let (input, (tag, _, value)) = tuple((
         delimited(multispace0, string, multispace0),
         tag(":"),
-        element
+        element,
     ))(input)?;
 
     Ok((input, (tag, value)))
@@ -183,7 +183,7 @@ fn object(input: &str) -> IResult<&str, HashMap<String, JsonValue>> {
     delimited(
         tag("{"),
         alt((members, multispace0.map(|_| HashMap::new()))),
-        tag("}")
+        tag("}"),
     )(input)
 }
 

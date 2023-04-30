@@ -22,10 +22,14 @@ impl JsonValue {
                 res.push_str("{\n");
 
                 for (i, (k, v)) in map.iter().enumerate() {
-                    res.push_str(&format!("\t{}{k}: {}", indent, v.pretty_print(indent_level + 1)));
+                    res.push_str(&format!(
+                        "\t{}{k}: {}",
+                        indent,
+                        v.pretty_print(indent_level + 1)
+                    ));
                     if i != map.len() - 1 {
-                        res.push(','); 
-                    } 
+                        res.push(',');
+                    }
                     res.push('\n');
                 }
 
@@ -33,13 +37,17 @@ impl JsonValue {
                 res.push('}');
                 res
             }
-            
+
             JsonValue::Array(vec) => {
                 let mut res = String::new();
                 res.push_str("[\n");
 
                 for (i, elem) in vec.iter().enumerate() {
-                    res.push_str(&format!("\t{}{}", indent, elem.pretty_print(indent_level + 1)));
+                    res.push_str(&format!(
+                        "\t{}{}",
+                        indent,
+                        elem.pretty_print(indent_level + 1)
+                    ));
 
                     if i != vec.len() - 1 {
                         res.push(',');
