@@ -111,7 +111,7 @@ where
     satisfy(move |i| i == c)
 }
 
-fn escaped_char(input: &str) -> IResult<&str, char> {
+fn special_character(input: &str) -> IResult<&str, char> {
     alt((
         map_to_output(match_char('b'), '\u{8}'),
         map_to_output(match_char('f'), '\u{C}'),
@@ -124,7 +124,7 @@ fn escaped_char(input: &str) -> IResult<&str, char> {
 fn escape(input: &str) -> IResult<&str, char> {
     alt((
         satisfy(|c| ['"', '\\', '/'].contains(&c)),
-        escaped_char,
+        special_character,
         unicode_char,
     ))(input)
 }
